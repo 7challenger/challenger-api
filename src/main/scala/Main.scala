@@ -1,6 +1,9 @@
-import users.User
+import com.typesafe.config.{ConfigFactory}
+import models.User
 
-object Main extends App {
-  val user = new User()
-  println(user);
+object WebServer extends App {
+  val config = ConfigFactory.load()
+
+  lazy val servicePort = config.getInt("service.port")
+  lazy val serviceHost = config.getString("service.host")
 }

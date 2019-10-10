@@ -7,3 +7,5 @@ build/
 .bloop/
 .metals/
 target/
+bin/
+gradle/
