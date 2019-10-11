@@ -1,41 +1,35 @@
 plugins {
   id 'scala'
   id 'application'
+  id 'org.gradle.playframework' version '0.9'
 }
+
+play {
+  platform {
+    playVersion = '2.6.14'
+    scalaVersion = '2.12'
+    javaVersion = JavaVersion.VERSION_1_9
+  }
+}
+
 
 repositories {
   jcenter()
-  mavenCentral()
+
+  maven {
+    name 'lightbend-maven-release'
+    url 'https://repo.lightbend.com/lightbend/maven-releases'
+  }
+
+  ivy {
+    name 'lightbend-ivy-release'
+    url 'https://repo.lightbend.com/lightbend/ivy-releases'
+    layout 'ivy'
+  }
 }
 
 dependencies {
-  implementation 'org.scala-lang:scala-library:2.12.8'
-
-  // postgres
-  implementation 'org.postgresql:postgresql:42.2.8'
-
-  // type-safe-config
-  implementation 'com.typesafe:config:1.3.4'
-
-  // scalafix
-  implementation 'ch.epfl.scala:scalafix-core_2.12:0.9.7'
-
-  // akka
-  // implementation 'com.typesafe.akka:akka-http:3.0.0-RC1'
-  implementation 'com.typesafe.akka:akka-stream_2.13:2.5.25'
-  implementation 'com.typesafe.akka:akka-http_2.13:10.1.10'
-  implementation 'com.typesafe.akka:akka-actor_2.13:2.5.25'
-  implementation 'com.typesafe.akka:akka-slf4j_2.13:2.5.25'
-
-  // slick
-  implementation 'com.typesafe.slick:slick_2.13:3.3.2'
-  implementation 'com.typesafe.slick:slick-hikaricp_2.13:3.3.2'
-
-  // logback
-  implementation 'ch.qos.logback:logback-classic:1.2.3'
-
-  // lift-json
-  implementation 'net.liftweb:lift-json_2.12:3.3.0'
+  implementation 'com.typesafe.play:filters-helpers_2.12:2.6.14'
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'org.scalatest:scalatest_2.12:3.0.8'
@@ -43,4 +37,4 @@ dependencies {
   testRuntimeOnly 'org.scala-lang.modules:scala-xml_2.12:1.2.0'
 }
 
-mainClassName = "WebServer"
+mainClassName = 'play.core.server.ProdServerStart'
