@@ -1,19 +1,28 @@
 plugins {
   id 'scala'
   id 'application'
+  id 'org.flywaydb.flyway' version '6.0.6'
 }
 
 repositories {
   jcenter()
 }
 
+flyway {
+  url = 'jdbc:postgresql://localhost:5432/challenger'
+  user = 'postgres'
+}
+
 dependencies {
   implementation 'org.postgresql:postgresql:42.2.8'
+  implementation 'org.flywaydb:flyway-core:3.2'
   implementation 'com.typesafe.slick:slick_2.12:3.3.2'
   implementation 'com.typesafe.slick:slick-hikaricp_2.12:3.3.2'
 
   implementation 'com.typesafe.akka:akka-http_2.12:10.1.10'
   implementation 'com.typesafe.akka:akka-stream_2.12:2.5.23'
+  implementation 'com.lightbend.akka:akka-stream-alpakka-slick_2.12:1.1.2'
+  implementation 'com.typesafe.akka:akka-http-spray-json_2.12:10.1.10'
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'org.scalatest:scalatest_2.12:3.0.8'
@@ -21,4 +30,4 @@ dependencies {
   testRuntimeOnly 'org.scala-lang.modules:scala-xml_2.12:1.2.0'
 }
 
-mainClassName = 'main.WebServer'
+mainClassName = 'WebServer'
