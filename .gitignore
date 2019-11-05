@@ -9,3 +9,7 @@ build/
 target/
 bin/
 gradle/
+
+.classpath
+.project
+.settings/

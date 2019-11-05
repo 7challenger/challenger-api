@@ -4,9 +4,16 @@ import modules.auth.models.UsersDAO
 import modules.auth.controllers.UsersController
 import modules.auth.marshallers.UserFormatter
 
+import modules.utils.ErrorFormatter
+
 import scala.concurrent.Future
 import scala.util.{Success, Failure}
+import akka.http.scaladsl.marshalling.Marshal
+
 import akka.http.scaladsl.model._
+import akka.http.scaladsl.model.ContentTypes._
+import akka.http.scaladsl.model.headers.`Content-Type`
+
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
 
@@ -18,34 +25,61 @@ object AuthRouter {
   }
 }
 
-object UsersRouter extends UserFormatter {
+object UsersRouter extends UserFormatter with ErrorFormatter {
   val routePrefix = "users"
 
-  val routes: Route = {
+  val authenticateRoute = pathPrefix("authenticate") {
     concat(
-      get {
-        pathPrefix(routePrefix / LongNumber) {userId =>
-          val futureMaybeUser: Future[UsersDAO.User] = UsersController.getUserById(userId)
+      post {
+        entity(as[UsersDAO.User]) {loginParams =>
+          val futureMaybeUser: Future[UsersDAO.User] =
+            UsersController.authenticate(loginParams.username, loginParams.password)
 
           onComplete(futureMaybeUser) {
-            case Success(user) => complete(user)
-            case Failure(ex) => complete(ex.toString())
+            case Success(user) => complete(
+              StatusCodes.OK,
+              List(`Content-Type`(`application/json`)),
+              user
+            )
+
+            case Failure(ex) => complete(
+              StatusCodes.BadRequest,
+              List(`Content-Type`(`application/json`)),
+              ex
+            )
           }
         }
       },
-      get {
-        pathPrefix("authenticate") {
-          parameters('username, 'password ) {(username, password) =>
-            val futureMaybeUser: Future[UsersDAO.User] =
-              UsersController.authenticate(username, password)
 
-            onComplete(futureMaybeUser) {
-              case Success(user) => complete(user)
-              case Failure(ex) => complete(ex.toString())
-            }
-          }
-        }
+      complete(StatusCodes.MethodNotAllowed)
+    )
+  }
+
+  val getUserRoute = get {
+    pathPrefix(routePrefix / LongNumber) {userId =>
+      val futureMaybeUser: Future[UsersDAO.User] =
+        UsersController.getUserById(userId)
+
+      onComplete(futureMaybeUser) {
+        case Success(user) => complete(
+          StatusCodes.OK,
+          List(`Content-Type`(`application/json`)),
+          user
+        )
+
+        case Failure(ex) => complete(
+          StatusCodes.BadRequest,
+          List(`Content-Type`(`application/json`)),
+          ex
+        )
       }
+    }
+  }
+
+  val routes: Route = {
+    concat(
+      getUserRoute,
+      authenticateRoute
     )
   }
 }
