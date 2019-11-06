@@ -9,8 +9,8 @@ import modules.projects.models.ProjectsDAO
 
 object UsersDAO {
   case class User(
-    id: Option[Long] = None,
-    projectId: Option[Long] = None,
+    id: Option[Long],
+    projectId: Option[Long],
     username: String,
     password: String
   ) {

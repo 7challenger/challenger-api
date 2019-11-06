@@ -50,8 +50,6 @@ object UsersRouter extends UserFormatter with ErrorFormatter {
           }
         }
       },
-
-      complete(StatusCodes.MethodNotAllowed)
     )
   }
 
