@@ -1,6 +1,6 @@
 create table Users (
   id serial not null primary key,
-  username varchar(100) not null,
+  username varchar(100) not null unique,
   password varchar(256) not null,
   project_id int,
   foreign key (project_id) references Projects(id)

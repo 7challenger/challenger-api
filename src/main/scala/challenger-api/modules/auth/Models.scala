@@ -29,7 +29,7 @@ object UsersDAO {
   class Users(tag: Tag) extends Table[User](tag, "users") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
-    def username = column[String]("username")
+    def username = column[String]("username", O.Unique)
     def password = column[String]("password")
     def projectId = column[Long]("project_id")
 

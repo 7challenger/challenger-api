@@ -53,6 +53,31 @@ object UsersRouter extends UserFormatter with ErrorFormatter {
     )
   }
 
+  val createUserRoute = pathPrefix("create") {
+    concat(
+      post {
+        entity(as[UsersDAO.User]) {newUser =>
+          val futureMaybeUser: Future[UsersDAO.User] =
+            UsersController.create(newUser.username, newUser.password)
+
+          onComplete(futureMaybeUser) {
+            case Success(user) => complete(
+              StatusCodes.OK,
+              List(`Content-Type`(`application/json`)),
+              user
+            )
+
+            case Failure(ex) => complete(
+              StatusCodes.BadRequest,
+              List(`Content-Type`(`application/json`)),
+              ex
+            )
+          }
+        }
+      },
+    )
+  }
+
   val getUserRoute = get {
     pathPrefix(routePrefix / LongNumber) {userId =>
       val futureMaybeUser: Future[UsersDAO.User] =
@@ -77,6 +102,7 @@ object UsersRouter extends UserFormatter with ErrorFormatter {
   val routes: Route = {
     concat(
       getUserRoute,
+      createUserRoute,
       authenticateRoute
     )
   }
