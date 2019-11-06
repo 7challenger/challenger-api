@@ -1,4 +1,4 @@
-package modules.projects.controllers
+package modules.projects.controller
 
 import scala.concurrent.{Future}
 import scala.util.{Success, Failure}

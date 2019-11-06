@@ -1,7 +1,7 @@
 package modules.projects.router
 
 import modules.projects.models.ProjectsDAO
-import modules.projects.controllers.ProjectsConotroller
+import modules.projects.controller.ProjectsConotroller
 import modules.projects.marshallers.ProjectFormatter
 
 import modules.utils.ErrorFormatter

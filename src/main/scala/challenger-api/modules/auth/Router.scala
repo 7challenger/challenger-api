@@ -1,7 +1,7 @@
 package modules.auth.router
 
 import modules.auth.models.UsersDAO
-import modules.auth.controllers.UsersController
+import modules.auth.controller.UsersController
 import modules.auth.marshallers.UserFormatter
 
 import modules.utils.ErrorFormatter

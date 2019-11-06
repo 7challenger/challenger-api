@@ -1,4 +1,4 @@
-package modules.auth.controllers
+package modules.auth.controller
 
 import scala.concurrent.{Future}
 import scala.util.{Success, Failure}
