@@ -10,6 +10,7 @@ import modules.utils.DbProvider
 import modules.auth.utils.Utils.{checkPassword}
 import modules.auth.models.UsersDAO.{User, users}
 
+// TODO: add abstract controller with all CRUD
 object UsersController {
   // TODO: move to aktors and own ec
   implicit val ec: ExecutionContext = ExecutionContext.global

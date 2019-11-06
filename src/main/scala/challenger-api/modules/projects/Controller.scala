@@ -9,6 +9,7 @@ import akka.stream.alpakka.slick.scaladsl._
 import modules.utils.DbProvider
 import modules.projects.models.ProjectsDAO.{Project, projects}
 
+// TODO: add abstract controller with all CRUD
 object ProjectsConotroller {
   // TODO: move to aktors and own ec
   implicit val ec: ExecutionContext = ExecutionContext.global

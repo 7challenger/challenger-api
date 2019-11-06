@@ -25,6 +25,7 @@ object AuthRouter {
   }
 }
 
+// TODO: add abstract router with formatters
 object UsersRouter extends UserFormatter with ErrorFormatter {
   val routePrefix = "users"
 

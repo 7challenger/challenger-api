@@ -17,6 +17,7 @@ import akka.http.scaladsl.model.headers.`Content-Type`
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
 
+// TODO: add abstract router with formatters
 object ProjectsRouter extends ProjectFormatter with ErrorFormatter {
   val getProjectRoute = get {
     path("projects" / LongNumber) {projectId =>
